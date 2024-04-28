@@ -1,0 +1,19 @@
+{
+    "name": "headlessshell",
+    "type": "module",
+    "scripts": {
+        "start": "node src/main.js",
+        "dev": "nodemon -e 'js' src/main.js"
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "firebase": "^10.10.0",
+        "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.0"
+    },
+    "imports": {
+        "#config": "./config.js"
+    }
+}

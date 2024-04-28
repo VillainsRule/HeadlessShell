@@ -1,0 +1,6 @@
+# node
+node_modules/
+bun.lockb
+
+# mac
+**/.DS_Store
