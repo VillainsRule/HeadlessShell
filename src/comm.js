@@ -1,3 +1,5 @@
+// most of this taken directly from shell shockers source, thanks for leaking
+
 export class Pool {
     constructor(constructorFn, size) {
         this.size = 0;
@@ -211,6 +213,8 @@ export class CommIn {
         return str;
     };
 };
+
+// commcodes, most unused but left for other devs
 
 export const CommCode = {
     'announcement': 10,

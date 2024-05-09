@@ -4,6 +4,7 @@ import config from '#config';
 export default (auth) => new Promise((resolve) => {
     let matchmaker = new WebSocket('wss://math.international/matchmaker/', {
         headers: {
+            // threw errors if not declared
             'user-agent':
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
             'accept-language': 'en-US,en;q=0.9'
@@ -13,7 +14,7 @@ export default (auth) => new Promise((resolve) => {
     matchmaker.onopen = () => matchmaker.send(JSON.stringify({
         command: 'joinGame',
         id: config.privateCode.toUpperCase(),
-        observe: false,
+        observe: false, // seems to be eggforcer-only thing
         sessionId: auth.session
     }));
 

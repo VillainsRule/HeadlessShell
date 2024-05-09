@@ -5,7 +5,7 @@ export default {
         '1ust.js'
     ],
 
-    botCount: 10,
+    botCount: 3,
 
     messages: [
         '1ust on top',

@@ -7,6 +7,7 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebas
 import config from '#config';
 
 export default () => new Promise(async (resolve) => {
+    // this apiconfig is forced from shell shockers src, i'm too lazy to dynamically fetch it
     let appConfig = {
         apiKey: 'AIzaSyDP4SIjKaw6A4c-zvfYxICpbEjn1rRnN50',
         authDomain: 'shellshockio-181719.firebaseapp.com',
@@ -20,13 +21,13 @@ export default () => new Promise(async (resolve) => {
     let app = getAuth(liveApp);
 
     onAuthStateChanged(app, async (user) => {
-        if (!user) return;
+        if (!user) return; // statechange is called the second it's declared, silly firebase
 
         const sessionID = new ws('wss://math.international/services/');
 
         sessionID.onmessage = (msg) => {
             let data = JSON.parse(msg.data);
-            if (data.sessionId) resolve({
+            if (data.sessionId) resolve({ // i mixed up var names here but wtv
                 session: data.sessionId,
                 firebase: data.firebaseId,
                 sessionInt: data.session
@@ -35,7 +36,7 @@ export default () => new Promise(async (resolve) => {
         };
 
         sessionID.onopen = async () => {
-            await new Promise(r => setTimeout(r, Math.floor(Math.random() * (5000 + 1) + 1000)));
+            await new Promise(r => setTimeout(r, Math.floor(Math.random() * (5000 + 1) + 1000))); // ratelimit avoidance
 
             sessionID.send(JSON.stringify({
                 cmd: 'auth',
@@ -47,6 +48,9 @@ export default () => new Promise(async (resolve) => {
     let account;
 
     try {
+        // the stuff added to the end of the shellprint key requires a * key, which most people don't have.
+        // you should probably use firebase signInAnonymously if you don't need chat
+        // all methods: https://firebase.google.com/docs/reference/js/auth.md#auth_package
         account = await axios.post('https://shellprint.villainsrule.xyz/v3/account?key=' + config.shellprintKey + Math.random().toString(32).slice(2));
     } catch (err) {
         console.log(err);
@@ -60,5 +64,6 @@ export default () => new Promise(async (resolve) => {
         process.exit(0);
     };
 
+    // see https://firebase.google.com/docs/reference/js/auth.md#auth_package
     await signInWithEmailAndPassword(app, account.data.email, account.data.password);
 });
